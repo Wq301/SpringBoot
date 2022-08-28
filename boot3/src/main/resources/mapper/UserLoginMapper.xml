@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wq.boot3.mapper.UserLoginMapper">
+
+    <!--public List<UserLogin> getAllUser();-->
+    <select id="getAllUser" resultType="com.wq.boot3.bean.UserLogin">
+        select * from user
+    </select>
+
+    <!--public int addUser(UserLogin userLogin);-->
+    <insert id="addUser" parameterType="com.wq.boot3.bean.UserLogin">
+        insert into user values (#{username},#{password})
+    </insert>
+    <!--public UserLogin queryUserByName(String username);-->
+    <select id="queryUserByName" resultType="com.wq.boot3.bean.UserLogin">
+        select * from user where username=#{username}
+    </select>
+</mapper>

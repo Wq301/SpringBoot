@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wq.boot.mapper.GoodTypesMapper">
+    <resultMap id="goods" type="com.wq.boot.pojo.Types">
+        <id property="typeId" column="typeId"/>
+        <result property="name" column="name"/>
+        <collection property="goods"
+                    select="com.wq.boot.mapper.GoodsMapper.getAllGoodsByTypeId"
+                    column="typeId"/>
+    </resultMap>
+    <select id="getGoodsByTypeId" resultMap="goods">
+        select * from types where typeId=#{typeId}
+    </select>
+
+
+    <!--多对多-->
+    <select id="selectAllTypesAndGoods" resultMap="moreToMore">
+        select types.typeId,types.name,goods.id,goods.name,goods.price
+        from goods,types,type_detail
+            where goods.id=type_detail.g_id
+              and type_detail.t_id=types.typeId
+    </select>
+    <resultMap id="moreToMore" type="com.wq.boot.pojo.Types">
+        <id property="typeId" column="typeId"></id>
+        <result property="name" column="name"/>
+        <collection property="details" ofType="com.wq.boot.pojo.Detail">
+            <id property="id" column="id"/>
+<!--            <result property="gId" column="g_id"/>-->
+<!--            <result property="tId" column="t_id"/>-->
+            <association property="goods" javaType="com.wq.boot.pojo.Goods">
+                <id property="id" column="id"/>
+                <result property="gname" column="name"/>
+                <result property="price" column="price"/>
+            </association>
+        </collection>
+    </resultMap>
+</mapper>

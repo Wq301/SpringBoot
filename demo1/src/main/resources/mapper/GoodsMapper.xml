@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wq.boot.mapper.GoodsMapper">
+    <select id="getAllGoodsByTypeId" resultType="com.wq.boot.pojo.Goods">
+        select * from goods where typeId=#{typeId}
+    </select>
+
+    <resultMap id="good" type="com.wq.boot.pojo.Goods">
+        <id property="id" column="id"/>
+        <result property="gname" column="name"/>
+        <result property="price" column="price"/>
+        <association property="types"
+                    select="com.wq.boot.mapper.GoodsMapper.getAllGoodsByTypeId"
+                    column="typeId"/>
+    </resultMap>
+    <select id="getGoodsOfTypes" resultMap="good">
+        select * from goods where id=#{id}
+    </select>
+</mapper>
